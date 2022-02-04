@@ -10,9 +10,9 @@ function auth(req,res,next){
         req.user=decoded;
         next();
     } catch (error) {
-        res.status(400).send("Access denied.Invalid token")
+        return res.status(400).send("Access denied.Invalid token")
     }
-    
+    // next();
 }
 
 module.exports=auth;
