@@ -3,6 +3,13 @@ const _ = require('lodash');
 const express = require('express');
 const router = express.Router();
 const bcrypt=require('bcrypt');
+const auth=require('../middleware/auth');
+
+// getting user details
+router.get('/me',auth, async (req, res) => {
+  const user=await User.findById(req.user._id);
+  res.send(user);
+});
 
 // registering a user
 router.post('/', async (req, res) => {
