@@ -7,7 +7,8 @@ const auth=require('../middleware/auth');
 const role=require('../middleware/role');
 
 router.get('/', asyncMiddleware(async (req, res) => {
-  const genres = await Genre.find().sort('poiy');
+  const genres = await Genre.find().sort('name');
+  throw 'genre get'
   res.send(genres);
 }));
 
