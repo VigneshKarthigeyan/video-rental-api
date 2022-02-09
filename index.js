@@ -25,16 +25,14 @@ require("winston-mongodb");
 //   winston.error(ex.message,ex);
 // })
 
-winston.exceptions.handle(new winston.transports.File({filename:"unhandledException.log"}))
-
-// winston.add(new winston.transports.File({filename:"unhandledException.log",handleExceptions:true}));
+winston.add(new winston.transports.Console({colorize:true,prettyPrint:true,handleExceptions:true}));
+winston.add(new winston.transports.File({filename:"unhandledException.log",handleExceptions:true}));
 winston.add(new winston.transports.File({filename:"errorLog.log"}));
-winston.add(new winston.transports.MongoDB({db:"mongodb://localhost/vidly"}));
-// new winston.transports.File({ filename: "combined.log" });
+winston.add(new winston.transports.MongoDB({db:"mongodb://localhost/vidly",level:'info'}));
 
 
 if (!config.get("jwtPrivateKey")) {
-  console.error("FATAL ERROR : jwtPrivateKey is not defined");
+  winston.error("FATAL ERROR : jwtPrivateKey is not defined");
   process.exit(1);
 }
 
