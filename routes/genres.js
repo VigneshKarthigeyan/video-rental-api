@@ -8,7 +8,6 @@ const role=require('../middleware/role');
 
 router.get('/', asyncMiddleware(async (req, res) => {
   const genres = await Genre.find().sort('name');
-  throw 'genre get'
   res.send(genres);
 }));
 
@@ -44,6 +43,9 @@ router.delete('/:id',[auth,role], asyncMiddleware(async (req, res) => {
 }));
 
 router.get('/:id', asyncMiddleware(async (req, res) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id))
+  return res.status(404).send('Invalid id');
+
   const genre = await Genre.findById(req.params.id);
 
   if (!genre) return res.status(404).send('The genre with the given ID was not found.');

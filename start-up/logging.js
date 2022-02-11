@@ -12,13 +12,13 @@ module.exports = function () {
   //   winston.error(ex.message,ex);
   // })
 
-  winston.add(
-    new winston.transports.Console({
-      colorize: true,
-      prettyPrint: true,
-      handleExceptions: true,
-    })
-  );
+  // winston.add(
+  //   new winston.transports.Console({
+  //     colorize: true,
+  //     prettyPrint: true,
+  //     handleExceptions: true,
+  //   })
+  // );
   winston.add(
     new winston.transports.File({
       filename: "unhandledException.log",
