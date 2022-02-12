@@ -1,5 +1,6 @@
 const req = require("supertest");
 const { Genre } = require("../../../models/genre");
+const { User } = require("../../../models/user");
 let server;
 describe("/api/genres", () => {
   beforeEach(async () => {
@@ -26,6 +27,27 @@ describe("/api/genres", () => {
       const res = await req(server).get("/api/genres/" + genre._id);
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty("name", "traditional");
+    });
+  });
+  describe("POST :id/", () => {
+    it("should return 401 error if access token not provided", async () => {
+      const res = await req(server).post('/api/genres').send({
+        name:'genre1'
+      })
+      expect(res.status).toBe(401);
+    });
+    it("should return 400 if token is invalid", async () => {
+      const res = await req(server).post('/api/genres').send({
+        name:'genre1'
+      }).set('x-auth-token','98765436')
+      expect(res.status).toBe(400);
+    });
+    it("should return 400 if name in the body is invalid", async () => {
+      const token=new User().getAuthToken();
+      const res = await req(server).post('/api/genres').send({
+        name:new Array(52).join('a')
+      }).set('x-auth-token',token)
+      expect(res.status).toBe(400);
     });
   });
 });
